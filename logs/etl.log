@@ -16072,3 +16072,9 @@
 2026-03-03 17:48:59 INFO  Main - Valid records: 5683
 2026-03-03 17:48:59 INFO  Main - Invalid records: 4218
 2026-03-03 17:48:59 INFO  Main - ========== ETL PROCESS COMPLETED ==========
+2026-03-04 00:39:55 INFO  DuplicateRemover - Starting duplicate removal...
+2026-03-04 00:39:55 WARN  DuplicateRemover - Duplicate found: rahul|a@mail.com|999
+2026-03-04 00:39:55 INFO  DuplicateRemover - Duplicate removal completed. Duplicates found: 1
+2026-03-04 00:41:18 INFO  DuplicateRemover - Starting duplicate removal...
+2026-03-04 00:41:18 WARN  DuplicateRemover - Duplicate found: rahul|a@mail.com|999
+2026-03-04 00:41:18 INFO  DuplicateRemover - Duplicate removal completed. Duplicates found: 1
