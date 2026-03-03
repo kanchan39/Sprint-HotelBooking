@@ -10,11 +10,15 @@ public class DerivedFields {
 
         for (Booking b : list) {
 
-            if (b.checkinDate != null && b.checkoutDate != null) {
-                b.stayNights =
+            if (b.getCheckinDate() != null &&
+                b.getCheckoutDate() != null) {
+
+                long nights =
                         ChronoUnit.DAYS.between(
-                                b.checkinDate,
-                                b.checkoutDate);
+                                b.getCheckinDate(),
+                                b.getCheckoutDate());
+
+                b.setStayNights(nights);
             }
         }
     }

@@ -2,10 +2,17 @@ package cleaning;
 
 import model.Booking;
 import java.util.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DuplicateRemover {
 
-    public static List<Booking> clean(List<Booking> list) {
+    private static final Logger logger =
+            LogManager.getLogger(DuplicateRemover.class);
+
+    public static List<Booking> remove(List<Booking> list) {
+
+        logger.info("Starting duplicate removal...");
 
         Set<String> seen = new HashSet<>();
         List<Booking> cleaned = new ArrayList<>();
@@ -15,18 +22,19 @@ public class DuplicateRemover {
         for (Booking b : list) {
 
             String key =
-                    safe(b.fullName) + "|" +
-                    safe(b.email) + "|" +
-                    safe(b.phoneNumber);
+                    safe(b.getFullName()) + "|" +
+                    safe(b.getEmail()) + "|" +
+                    safe(b.getPhoneNumber());
 
             if (seen.add(key)) {
                 cleaned.add(b);
             } else {
                 duplicates++;
+                logger.warn("Duplicate found: {}", key);
             }
         }
 
-        System.out.println("Duplicates Found: " + duplicates);
+        logger.info("Duplicate removal completed. Duplicates found: {}", duplicates);
 
         return cleaned;
     }

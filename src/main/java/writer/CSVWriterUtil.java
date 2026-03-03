@@ -15,12 +15,14 @@ public class CSVWriterUtil {
         writer.write("bookingId,fullName,city,stayNights\n");
 
         for (Booking b : list) {
+
             writer.write(
-                    b.bookingId + "," +
-                    b.fullName + "," +
-                    b.city + "," +
-                    b.stayNights
+                    b.getBookingId() + "," +
+                    b.getFullName() + "," +
+                    b.getCity() + "," +
+                    b.getStayNights()
             );
+
             writer.newLine();
         }
 

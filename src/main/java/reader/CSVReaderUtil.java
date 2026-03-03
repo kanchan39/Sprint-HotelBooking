@@ -22,40 +22,37 @@ public class CSVReaderUtil {
 
             while ((row = reader.readNext()) != null) {
 
-                Booking b = new Booking();
+Booking b = new Booking();
 
-                // Generate ID safely
-                b.bookingId = idCounter++;
+b.setBookingId(idCounter++);
 
-                b.hotelId = parseInt(row[1]);
-                b.customerId = parseInt(row[2]);
+b.setHotelId(parseInt(row[1]));
+b.setCustomerId(parseInt(row[2]));
 
-                b.fullName = row[3];
-                b.email = row[4];
-                b.phoneNumber = row[5];
+b.setFullName(row[3]);
+b.setEmail(row[4]);
+b.setPhoneNumber(row[5]);
 
-                b.bookingDate = parseDate(row[6]);
-                b.checkinDate = parseDate(row[7]);
-                b.checkoutDate = parseDate(row[8]);
+b.setBookingDate(parseDate(row[6]));
+b.setCheckinDate(parseDate(row[7]));
+b.setCheckoutDate(parseDate(row[8]));
 
-                b.roomType = row[9];
-                b.roomRate = parseDouble(row[10]);
-                b.numGuests = parseInt(row[11]);
+b.setRoomType(row[9]);
+b.setRoomRate(parseDouble(row[10]));
+b.setNumGuests(parseInt(row[11]));
 
-                b.bookingChannel = row[12];
-                b.bookingStatus = row[13];
+b.setBookingChannel(row[12]);
+b.setBookingStatus(row[13]);
 
-                b.paymentStatus = row[14];
-                b.paymentMethod = row[15];
+b.setPaymentStatus(row[14]);
+b.setPaymentMethod(row[15]);
 
-                b.taxAmount = parseDouble(row[16]);
-                b.discountAmount = parseDouble(row[17]);
+b.setTaxAmount(parseDouble(row[16]));
+b.setDiscountAmount(parseDouble(row[17]));
 
-                b.city = row[18];
-                b.state = row[19];
-                b.country = row[20];
-
-                bookings.add(b);
+b.setCity(row[18]);
+b.setState(row[19]);
+b.setCountry(row[20]);
             }
 
         } catch (Exception e) {

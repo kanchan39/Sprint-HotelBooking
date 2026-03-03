@@ -1,0 +1,16 @@
+cleaning\StatusValidator.class
+cleaning\DateStandardizer.class
+reader\CSVReaderUtil.class
+writer\CSVWriterUtil.class
+cleaning\CodeMapper.class
+model\Booking.class
+cleaning\NumericFieldCleaner.class
+cleaning\DataNormalizer.class
+analytics\Categorizer.class
+Main.class
+cleaning\DerivedFieldCalculator.class
+cleaning\NameNormalizer.class
+transform\DerivedFields.class
+analytics\Aggregator.class
+cleaning\DuplicateRemover.class
+cleaning\InvalidRecordFlagger.class

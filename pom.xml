@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.rishi</groupId>
+  <groupId>com.sprintProject</groupId>
   <artifactId>hotel-booking-cleaner</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   
@@ -12,6 +12,53 @@
         <version>5.9</version>
     </dependency>
 
+    <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>2.0.12</version>
+</dependency>
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <version>5.9.3</version>
+    <scope>test</scope>
+</dependency>
+
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-simple</artifactId>
+    <version>2.0.12</version>
+</dependency>
+
+<!-- Log4j2 API -->
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-api</artifactId>
+    <version>2.22.0</version>
+</dependency>
+
+<!-- Log4j2 Core -->
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-core</artifactId>
+    <version>2.22.0</version>
+</dependency>
+
 </dependencies>
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <configuration>
+                <mainClass>Main</mainClass>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
 
 </project>
+
+
