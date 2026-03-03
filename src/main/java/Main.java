@@ -7,6 +7,7 @@ import cleaning.NumericFieldCleaner;
 import cleaning.DateStandardizer;
 import cleaning.CodeMapper;
 import cleaning.StatusValidator;
+import cleaning.ValidationResult;
 import cleaning.InvalidRecordFlagger;
 import cleaning.DerivedFieldCalculator;
 
@@ -23,65 +24,73 @@ import java.util.Map;
 
 public class Main {
 
-    private static final Logger logger =
-            LogManager.getLogger(Main.class);
+        private static final Logger logger = LogManager.getLogger(Main.class);
 
-    public static void main(String[] args) throws Exception {
+        public static void main(String[] args) throws Exception {
 
-        logger.info("========== ETL PROCESS STARTED ==========");
+                logger.info("========== ETL PROCESS STARTED ==========");
 
-        String input =
-                "data/hotel_bookings_synthetic_10000.csv";
+                String input = "data/hotel_bookings_synthetic_10000.csv";
 
-        String output =
-                "data/cleaned_bookings.csv";
+                String output = "data/cleaned_bookings.csv";
 
-        // ===== EXTRACT =====
-        List<Booking> bookings =
-                CSVReaderUtil.read(input);
+                // ===== EXTRACT =====
+                List<Booking> bookings = CSVReaderUtil.read(input);
 
-        logger.info("Original Size: {}", bookings.size());
+                logger.info("Original Size: {}", bookings.size());
 
-        // ===== TRANSFORM =====
+                // ===== TRANSFORM =====
 
-        NameNormalizer.normalize(bookings);
+                NameNormalizer.normalize(bookings);
 
-        NumericFieldCleaner.clean(bookings);
+                NumericFieldCleaner.clean(bookings);
 
-        DateStandardizer.standardize(bookings);
+                DateStandardizer.standardize(bookings);
 
-        CodeMapper.map(bookings);
+                CodeMapper.map(bookings);
 
-        StatusValidator.normalize(bookings);
+                StatusValidator.normalize(bookings);
 
-        bookings = DuplicateRemover.remove(bookings);
+                bookings = DuplicateRemover.remove(bookings);
 
-        bookings = InvalidRecordFlagger.filter(bookings);
+                // bookings = InvalidRecordFlagger.filter(bookings); // NO LONGER USE OF THISSSS
 
-        DerivedFieldCalculator.compute(bookings);
+                DerivedFieldCalculator.compute(bookings);
 
-        logger.info("After Cleaning Size: {}", bookings.size());
+                logger.info("After Cleaning Size: {}", bookings.size());
 
-        // ===== ANALYTICS =====
-        // Map<String, Long> cityCount =
-        //         Aggregator.countByCity(bookings);
+                // ===== ANALYTICS =====
+                Map<String, Long> cityCount = Aggregator.countByCity(bookings);
 
-        // logger.info("City-wise Booking Count: {}", cityCount);
+                logger.info("City-wise Booking Count: {}", cityCount);
 
-        // Categorization Example
-        // bookings.forEach(b -> {
-        //     if (b.getStayNights() != null) {
-        //         String category =
-        //                 Categorizer.categorizeStay(
-        //                         b.getStayNights());
-        //         logger.debug("BookingId {} Category: {}",
-        //                 b.getBookingId(), category);
-        //     }
-        // });
+                // Categorization Example
+                bookings.forEach(b -> {
+                        if (b.getStayNights() != null) {
+                                String category = Categorizer.categorizeStay(
+                                                b.getStayNights());
+                                logger.debug("BookingId {} Category: {}",
+                                                b.getBookingId(), category);
+                        }
+                });
 
-        // ===== LOAD (Currently CSV) =====
-        CSVWriterUtil.write(bookings, output);
+                // ===== VALIDATION =====
+                ValidationResult result = InvalidRecordFlagger.process(bookings);
 
-        logger.info("========== ETL PROCESS COMPLETED ==========");
-    }
+                List<Booking> validBookings = result.getValid();
+                List<Booking> invalidBookings = result.getInvalid();
+
+                logger.info("Valid records: {}", validBookings.size());
+                logger.info("Invalid records: {}", invalidBookings.size());
+
+                // ===== WRITE INVALID FILE =====
+                CSVWriterUtil.writeInvalid(
+                                invalidBookings,
+                                "data/invalid_records.csv");
+
+                // ===== LOAD (Currently CSV) =====
+                CSVWriterUtil.write(bookings, output);
+
+                logger.info("========== ETL PROCESS COMPLETED ==========");
+        }
 }

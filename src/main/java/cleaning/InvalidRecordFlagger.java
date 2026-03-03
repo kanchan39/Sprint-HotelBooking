@@ -12,16 +12,18 @@ public class InvalidRecordFlagger {
     private static final Logger logger =
             LogManager.getLogger(InvalidRecordFlagger.class);
 
-    public static List<Booking> filter(List<Booking> list) {
+    public static ValidationResult process(List<Booking> list) {
 
-        logger.info("Filtering invalid records...");
+        logger.info("Starting validation and invalid record separation...");
 
         List<Booking> valid = new ArrayList<>();
+        List<Booking> invalid = new ArrayList<>();
 
         for (Booking b : list) {
 
             boolean isValid = true;
 
+            // Email validation
             if (b.getEmail() == null ||
                 !b.getEmail().contains("@")) {
 
@@ -30,6 +32,7 @@ public class InvalidRecordFlagger {
                 isValid = false;
             }
 
+            // Phone validation
             if (b.getPhoneNumber() == null ||
                 b.getPhoneNumber().length() < 10) {
 
@@ -40,12 +43,14 @@ public class InvalidRecordFlagger {
 
             if (isValid) {
                 valid.add(b);
+            } else {
+                invalid.add(b);
             }
         }
 
-        logger.info("Invalid filtering completed. Valid size: {}",
-                valid.size());
+        logger.info("Validation completed. Valid: {}, Invalid: {}",
+                valid.size(), invalid.size());
 
-        return valid;
+        return new ValidationResult(valid, invalid);
     }
 }
