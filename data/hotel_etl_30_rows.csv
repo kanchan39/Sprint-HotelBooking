@@ -1,0 +1,31 @@
+booking_id,hotel_id,customer_id,full_name,email,phone_number,booking_date,checkin_date,checkout_date,room_type,room_rate,num_guests,booking_channel,booking_status,payment_status,payment_method,tax_amount,discount_amount,city,state,country
+1,101,1001, rahul sharma ,RAHUL@MAIL.COM,9876543210,02/01/2024,10/02/2024,13/02/2024,dlx,5000,2,OTA,confirmed,paid,upi,500,0,Delhi,Delhi,India
+2,101,1001,Rahul Sharma,rahul@mail.com,9876543210,02/01/2024,10/02/2024,13/02/2024,DLX,5000,2,OTA,confirm,paid,UPI,500,0,Delhi,Delhi,India
+3,102,1002,ANITA VERMA,anita@mail,98765abc,01/03/2024,10/03/2024,12/03/2024,deluxe,4500,2,Direct,cnfrm,paid,card,450,50,Mumbai,MH,India
+4,103,1003, Amit Kumar ,amit@mail.com,9998887777,01/04/2024,15/04/2024,18/04/2024,std,3500,2,Agent,confirmed,pending,cash,350,0,Pune,MH,India
+5,104,1004,PRIYA SINGH,priya@mail.com,8887776665,05.05.2024,10/05/2024,15/05/2024,STD,3500,3,OTA,cancelled,refund,card,350,100,Jaipur,RJ,India
+6,105,1005,Rohit Mehta,rohit@@mail.com,8887776664,01/06/2024,05/06/2024,08/06/2024,dlx,6000,2,OTA,cncl,refunded,upi,600,200,Bangalore,KA,India
+7,106,1006,neha kapoor,neha@mail.com,7776665554,02/07/2024,10/07/2024,14/07/2024,delux,5500,2,Direct,confirmed,paid,card,550,0,Chennai,TN,India
+8,107,1007, Raj Patel ,raj@mail.com,7776665553,03/08/2024,15/08/2024,18/08/2024,dlx,abc,2,OTA,confirmed,paid,upi,600,0,Ahmedabad,GJ,India
+9,108,1008,Sneha Iyer,sneha@mail.com,7776665552,04/09/2024,12/09/2024,15/09/2024,std,3200,two,Agent,confirmed,paid,cash,320,0,Hyderabad,TS,India
+10,109,1009,Arjun Nair,arjun@mail.com,7776665551,05/10/2024,11/10/2024,13/10/2024,DLX,4800,2,OTA,no-show,paid,card,480,50,Kochi,KL,India
+11,110,1010,Meera Das,meera@mail.com,7776665550,01/11/2024,10/11/2024,12/11/2024,std,3000,1,Direct,ns,paid,cash,300,0,Kolkata,WB,India
+12,111,1011, Ravi Gupta ,ravi@mail.com,7776665549,01/12/2024,05/12/2024,10/12/2024,dlx,5200,2,OTA,pending,pending,upi,520,0,Delhi,Delhi,India
+13,112,1012,Sunita Sharma,sunita@mail.com,7776665548,01/01/2024,10/01/2024,12/01/2024,std,-2000,2,OTA,confirmed,paid,card,200,0,Lucknow,UP,India
+14,113,1013,Abhishek Jain,abhishek@mail.com,7776665547,01/02/2024,10/02/2024,13/02/2024,deluxe,6000,2,Agent,confirmed,paid,card,600,50,Indore,MP,India
+15,114,1014,Deepak Yadav,deepak@mail.com,7776665546,02/03/2024,10/03/2024,15/03/2024,std,3500,3,OTA,cnfrm,paid,upi,350,0,Patna,BR,India
+16,115,1015,Pooja Singh,pooja@mail.com,7776665545,01/04/2024,10/04/2024,12/04/2024,dlx,5000,2,OTA,confirm,paid,card,500,0,Varanasi,UP,India
+17,116,1016,Anil Kapoor,anil@mail.com,7776665544,05/05/2024,12/05/2024,14/05/2024,std,3200,1,Direct,confirmed,paid,cash,320,0,Chandigarh,CH,India
+18,117,1017,Karan Malhotra,karan@mail,7776665543,06/06/2024,15/06/2024,18/06/2024,dlx,5200,2,OTA,confirmed,paid,upi,520,0,Delhi,Delhi,India
+19,118,1018,Nikita Roy,nikita@mail.com,7776665542,07/07/2024,12/07/2024,16/07/2024,dlx,5000,2,Agent,no show,paid,card,500,0,Mumbai,MH,India
+20,119,1019,Harsh Agarwal,harsh@mail.com,7776665541,08/08/2024,12/08/2024,14/08/2024,std,3100,2,OTA,confirmed,paid,upi,310,0,Pune,MH,India
+21,120,1020,Ritu Khanna,ritu@mail.com,7776665540,09/09/2024,15/09/2024,18/09/2024,dlx,4800,2,OTA,cancel,refunded,card,480,100,Delhi,Delhi,India
+22,121,1021,Sanjay Verma,sanjay@mail.com,7776665539,10/10/2024,15/10/2024,20/10/2024,std,3400,2,Direct,confirmed,paid,cash,340,0,Bhopal,MP,India
+23,122,1022,Manish Tiwari,manish@mail.com,7776665538,11/11/2024,18/11/2024,21/11/2024,dlx,5100,2,OTA,confirmed,paid,upi,510,0,Delhi,Delhi,India
+24,123,1023,Sakshi Arora,sakshi@mail.com,7776665537,12/12/2024,18/12/2024,22/12/2024,std,3300,2,Agent,confirmed,paid,card,330,0,Gurgaon,HR,India
+25,124,1024,Vikas Singh,vikas@mail.com,7776665536,15/01/2024,20/01/2024,25/01/2024,dlx,5200,2,OTA,confirmed,paid,upi,520,0,Noida,UP,India
+26,125,1025,  ALICE JOSEPH ,ALICE@MAIL.COM,8881112223,02/02/2024,10/02/2024,12/02/2024,std,4100,2,Direct,pndng,pending,card,410,0,Kochi,KL,India
+27,126,1026,bob martin,bob@mail.com,8881112224,03/03/2024,10/03/2024,13/03/2024,dlx,4700,2,OTA,cncld,refunded,upi,470,50,Delhi,Delhi,India
+28,127,1027,Charlie Brown,charlie@mail,8881112225,04/04/2024,10/04/2024,14/04/2024,deluxe,4300,two,Agent,confirmed,paid,cash,430,0,Mumbai,MH,India
+29,128,1028,david lee,DAVID@MAIL.COM,8881112226,05/05/2024,12/05/2024,15/05/2024,DLX,4800,2,OTA,n/s,paid,card,480,0,Pune,MH,India
+30,129,1029,Emily Stone,emily@mail.com,invalid_phone,06/06/2024,12/06/2024,15/06/2024,std,3900,2,OTA,confirmed,paid,upi,390,0,Delhi,Delhi,India

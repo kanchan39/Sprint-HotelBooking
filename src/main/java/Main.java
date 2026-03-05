@@ -1,6 +1,7 @@
 import reader.CSVReaderUtil;
 import writer.CSVWriterUtil;
 import db.DBConnection;
+
 import cleaning.DuplicateRemover;
 import cleaning.NameNormalizer;
 import cleaning.NumericFieldCleaner;
@@ -11,8 +12,18 @@ import cleaning.ValidationResult;
 import cleaning.InvalidRecordFlagger;
 import cleaning.DerivedFieldCalculator;
 
+// NEW NORMALIZERS
+import cleaning.DataNormalizer;
+import cleaning.EmailNormalizer;
+import cleaning.PaymentMethodNormalizer;
+import cleaning.PaymentStatusNormalizer;
+import cleaning.RoomTypeNormalizer;
+import cleaning.BookingStatusNormalizer;
+
 import analytics.Aggregator;
 import analytics.Categorizer;
+
+import loader.DatabaseLoader;
 
 import model.Booking;
 
@@ -24,73 +35,148 @@ import java.util.Map;
 
 public class Main {
 
-        private static final Logger logger = LogManager.getLogger(Main.class);
+    private static final Logger logger = LogManager.getLogger(Main.class);
 
-        public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
-                logger.info("========== ETL PROCESS STARTED ==========");
+        logger.info("========== ETL PROCESS STARTED ==========");
 
-                String input = "data/hotel_bookings_synthetic_10000.csv";
+        String input = "data/hotel_etl_30_rows.csv";
+        String output = "data/cleaned_bookings.csv";
+        String invalidOutput = "data/invalid_records.csv";
 
-                String output = "data/cleaned_bookings.csv";
+        // ==============================
+        // EXTRACT
+        // ==============================
 
-                // ===== EXTRACT =====
-                List<Booking> bookings = CSVReaderUtil.read(input);
+        List<Booking> bookings = CSVReaderUtil.read(input);
 
-                logger.info("Original Size: {}", bookings.size());
+        logger.info("Original Size: {}", bookings.size());
 
-                // ===== TRANSFORM =====
+        // ==============================
+        // TRANSFORM / CLEANING
+        // ==============================
 
-                NameNormalizer.normalize(bookings);
+        logger.info("Starting normalization layer...");
 
-                NumericFieldCleaner.clean(bookings);
+        // Generic text cleanup
+        DataNormalizer.normalize(bookings);
 
-                DateStandardizer.standardize(bookings);
+        // Name normalization
+        NameNormalizer.normalize(bookings);
 
-                CodeMapper.map(bookings);
+        // Email normalization
+        EmailNormalizer.normalize(bookings);
 
-                StatusValidator.normalize(bookings);
+        // Payment fields normalization
+        PaymentMethodNormalizer.normalize(bookings);
+        PaymentStatusNormalizer.normalize(bookings);
 
-                bookings = DuplicateRemover.remove(bookings);
+        // Room type normalization
+        RoomTypeNormalizer.normalize(bookings);
 
-                // bookings = InvalidRecordFlagger.filter(bookings); // NO LONGER USE OF THISSSS
+        // Booking status normalization
+        BookingStatusNormalizer.normalize(bookings);
 
-                DerivedFieldCalculator.compute(bookings);
+        logger.info("Normalization layer completed.");
 
-                logger.info("After Cleaning Size: {}", bookings.size());
+        // ==============================
+        // NUMERIC / DATE CLEANING
+        // ==============================
 
-                // ===== ANALYTICS =====
-                Map<String, Long> cityCount = Aggregator.countByCity(bookings);
+        NumericFieldCleaner.clean(bookings);
 
-                logger.info("City-wise Booking Count: {}", cityCount);
+        DateStandardizer.standardize(bookings);
 
-                // Categorization Example
-                bookings.forEach(b -> {
-                        if (b.getStayNights() != null) {
-                                String category = Categorizer.categorizeStay(
-                                                b.getStayNights());
-                                logger.debug("BookingId {} Category: {}",
-                                                b.getBookingId(), category);
-                        }
-                });
+        CodeMapper.map(bookings);
 
-                // ===== VALIDATION =====
-                ValidationResult result = InvalidRecordFlagger.process(bookings);
+        // ==============================
+        // DUPLICATE REMOVAL
+        // ==============================
 
-                List<Booking> validBookings = result.getValid();
-                List<Booking> invalidBookings = result.getInvalid();
+        bookings = DuplicateRemover.remove(bookings);
 
-                logger.info("Valid records: {}", validBookings.size());
-                logger.info("Invalid records: {}", invalidBookings.size());
+        // ==============================
+        // DERIVED FIELDS
+        // ==============================
 
-                // ===== WRITE INVALID FILE =====
-                CSVWriterUtil.writeInvalid(
-                                invalidBookings,
-                                "data/invalid_records.csv");
+        DerivedFieldCalculator.compute(bookings);
 
-                // ===== LOAD (Currently CSV) =====
-                CSVWriterUtil.write(bookings, output);
+        logger.info("After Cleaning Size: {}", bookings.size());
 
-                logger.info("========== ETL PROCESS COMPLETED ==========");
-        }
+        // ==============================
+        // ANALYTICS
+        // ==============================
+
+        Map<String, Long> cityCount = Aggregator.countByCity(bookings);
+
+        logger.info("City-wise Booking Count: {}", cityCount);
+
+        bookings.forEach(b -> {
+
+            if (b.getStayNights() != null) {
+
+                String category =
+                        Categorizer.categorizeStay(
+                                b.getStayNights());
+
+                logger.debug(
+                        "BookingId {} Category: {}",
+                        b.getBookingId(),
+                        category
+                );
+            }
+        });
+
+        // ==============================
+        // VALIDATION
+        // ==============================
+
+        ValidationResult result =
+                InvalidRecordFlagger.process(bookings);
+
+        List<Booking> validBookings =
+                result.getValid();
+
+        List<Booking> invalidBookings =
+                result.getInvalid();
+
+        logger.info("Valid records: {}", validBookings.size());
+        logger.info("Invalid records: {}", invalidBookings.size());
+
+        // ==============================
+        // WRITE INVALID RECORDS
+        // ==============================
+
+        CSVWriterUtil.writeInvalid(
+                invalidBookings,
+                invalidOutput
+        );
+
+        logger.info("Invalid records file created.");
+
+        // ==============================
+        // WRITE CLEAN DATA (Audit CSV)
+        // ==============================
+
+        CSVWriterUtil.write(
+                validBookings,
+                output
+        );
+
+        logger.info("Cleaned CSV file created.");
+
+        // ==============================
+        // LOAD INTO DATABASE
+        // ==============================
+
+        logger.info("Loading cleaned data into database...");
+
+        DatabaseLoader.insertBatch(validBookings);
+
+        logger.info("Database load completed.");
+
+        logger.info("========== ETL PROCESS COMPLETED ==========");
+    }
 }
+

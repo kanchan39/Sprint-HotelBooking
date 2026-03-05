@@ -5,6 +5,7 @@ import model.Booking;
 
 import java.io.FileReader;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class CSVReaderUtil {
@@ -81,10 +82,28 @@ public class CSVReaderUtil {
     }
 
     private static LocalDate parseDate(String v) {
-        try {
-            return LocalDate.parse(v);
-        } catch (Exception e) {
+
+        if (v == null || v.trim().isEmpty())
             return null;
+
+        String value = v.trim();
+
+        DateTimeFormatter[] formats = {
+                DateTimeFormatter.ofPattern("dd-MM-yyyy"),
+                DateTimeFormatter.ofPattern("yyyy-MM-dd"),
+                DateTimeFormatter.ofPattern("dd/MM/yyyy"),
+                DateTimeFormatter.ofPattern("yyyy/MM/dd"),
+                 DateTimeFormatter.ofPattern("dd.MM.yyyy") 
+        };
+
+        for (DateTimeFormatter f : formats) {
+
+            try {
+                return LocalDate.parse(value, f);
+            } catch (Exception ignored) {
+            }
         }
+
+        return null;
     }
 }

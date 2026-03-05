@@ -27,8 +27,8 @@ public class InvalidRecordFlagger {
             if (b.getEmail() == null ||
                 !b.getEmail().contains("@")) {
 
-                logger.warn("Invalid email for bookingId {}",
-                        b.getBookingId());
+                // logger.warn("Invalid email for bookingId {}",
+                        // b.getBookingId());
                 isValid = false;
             }
 
@@ -36,8 +36,8 @@ public class InvalidRecordFlagger {
             if (b.getPhoneNumber() == null ||
                 b.getPhoneNumber().length() < 10) {
 
-                logger.warn("Invalid phone for bookingId {}",
-                        b.getBookingId());
+                // logger.warn("Invalid phone for bookingId {}",
+                        // b.getBookingId());
                 isValid = false;
             }
 
