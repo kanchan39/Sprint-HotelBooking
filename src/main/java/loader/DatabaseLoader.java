@@ -5,6 +5,7 @@ import util.DBConnectionUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 public class DatabaseLoader {
@@ -15,9 +16,10 @@ public class DatabaseLoader {
 
         try (Connection con = DBConnectionUtil.getConnection()) {
 
-            con.setAutoCommit(false);  // 🔥 Start transaction
+            con.setAutoCommit(false); // 🔥 Start transaction
 
             PreparedStatement ps = con.prepareStatement(sql);
+      
 
             for (Booking b : list) {
 
@@ -55,9 +57,9 @@ public class DatabaseLoader {
                 ps.addBatch();
             }
 
-            ps.executeBatch();  // 🔥 Batch insert
+            ps.executeBatch(); // 🔥 Batch insert
 
-            con.commit();       // 🔥 Commit if success
+            con.commit(); // 🔥 Commit if success
 
             System.out.println("Batch Insert Successful!");
 
