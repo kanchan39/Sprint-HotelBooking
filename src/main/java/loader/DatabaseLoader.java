@@ -16,10 +16,15 @@ public class DatabaseLoader {
 
         try (Connection con = DBConnectionUtil.getConnection()) {
 
-            con.setAutoCommit(false); // 🔥 Start transaction
+            con.setAutoCommit(false); // Start transaction
+
+            // 🔥 TRUNCATE TABLE before insert
+            try (Statement stmt = con.createStatement()) {
+                stmt.executeUpdate("TRUNCATE TABLE booking_cleaned");
+                System.out.println("Table booking_cleaned truncated.");
+            }
 
             PreparedStatement ps = con.prepareStatement(sql);
-      
 
             for (Booking b : list) {
 
@@ -57,9 +62,9 @@ public class DatabaseLoader {
                 ps.addBatch();
             }
 
-            ps.executeBatch(); // 🔥 Batch insert
+            ps.executeBatch(); // Batch insert
 
-            con.commit(); // 🔥 Commit if success
+            con.commit(); // Commit transaction
 
             System.out.println("Batch Insert Successful!");
 

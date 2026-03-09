@@ -10,7 +10,7 @@ public class DuplicateRemover {
     private static final Logger logger =
             LogManager.getLogger(DuplicateRemover.class);
 
-    public static List<Booking> remove(List<Booking> list) {
+    public static DuplicateResult remove(List<Booking> list) {
 
         logger.info("Starting duplicate removal...");
 
@@ -36,7 +36,7 @@ public class DuplicateRemover {
 
         logger.info("Duplicate removal completed. Duplicates found: {}", duplicates);
 
-        return cleaned;
+        return new DuplicateResult(cleaned, duplicates);
     }
 
     private static String safe(String s) {

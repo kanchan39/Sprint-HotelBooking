@@ -1,11 +1,11 @@
 import cleaning.DuplicateRemover;
+import cleaning.DuplicateResult;
 import model.Booking;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Disabled;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,7 +30,9 @@ public class DuplicateRemoverFailTest {
         list.add(b1);
         list.add(b2);
 
-        List<Booking> cleaned = DuplicateRemover.remove(list);
+        DuplicateResult result = DuplicateRemover.remove(list);
+
+        List<Booking> cleaned = result.getCleaned();
 
         // INTENTIONALLY WRONG EXPECTATION
         assertEquals(2, cleaned.size());

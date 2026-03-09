@@ -6,6 +6,7 @@ import java.util.List;
 
 import model.Booking;
 import cleaning.DuplicateRemover;
+import cleaning.DuplicateResult;
 
 class DuplicateRemoverTest {
 
@@ -27,9 +28,11 @@ class DuplicateRemoverTest {
         list.add(b1);
         list.add(b2);
 
-        List<Booking> result =
-                DuplicateRemover.remove(list);
+        DuplicateResult result = DuplicateRemover.remove(list);
 
-        assertEquals(1, result.size());
+        List<Booking> cleaned = result.getCleaned();
+
+        assertEquals(1, cleaned.size());
+        assertEquals(1, result.getDuplicateCount());
     }
 }

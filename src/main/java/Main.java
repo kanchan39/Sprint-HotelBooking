@@ -3,6 +3,7 @@ import util.ETLReport;
 import writer.CSVWriterUtil;
 
 import cleaning.DuplicateRemover;
+import cleaning.DuplicateResult;
 import cleaning.NameNormalizer;
 import cleaning.NumericFieldCleaner;
 import cleaning.DateStandardizer;
@@ -41,7 +42,7 @@ public class Main {
 
                 logger.info("========== ETL PROCESS STARTED ==========");
 
-                String input = "data/hotel_bookings_synthetic_10000.csv";
+                String input = "data/hotel_etl_30_rows.csv";
                 String output = "data/cleaned_bookings.csv";
                 String invalidOutput = "data/invalid_records.csv";
 
@@ -94,9 +95,13 @@ public class Main {
                 // ==============================
                 // DUPLICATE REMOVAL
                 // ==============================
+                  
+                DuplicateResult dupResult = DuplicateRemover.remove(bookings);
 
-                bookings = DuplicateRemover.remove(bookings);
+bookings = dupResult.getCleaned();
 
+int duplicatesRemoved = dupResult.getDuplicateCount();
+               
                 // ==============================
                 // DERIVED FIELDS
                 // ==============================
@@ -173,11 +178,11 @@ public class Main {
                 long end = System.currentTimeMillis();
 
                 ETLReport.printReport(
-                                bookings.size(),
-                                1,
-                                validBookings.size(),
-                                invalidBookings.size(),
-                                end - start);
+        bookings.size(),
+        duplicatesRemoved,
+        validBookings.size(),
+        invalidBookings.size(),
+        end - start);
 
                 logger.info("========== ETL PROCESS COMPLETED ==========");
         }
