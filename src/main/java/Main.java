@@ -41,7 +41,7 @@ public class Main {
 
                 logger.info("========== ETL PROCESS STARTED ==========");
 
-                String input = "data/hotel_etl_30_rows.csv";
+                String input = "data/hotel_bookings_synthetic_10000.csv";
                 String output = "data/cleaned_bookings.csv";
                 String invalidOutput = "data/invalid_records.csv";
 
